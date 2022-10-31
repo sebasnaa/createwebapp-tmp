@@ -9,7 +9,7 @@ name: Deploy Bicep files
 variables:
   vmImageName: 'ubuntu-latest'
   azureServiceConnection: 'myServiceConnection'
-  resourceGroupName: 'Bicep'
+  resourceGroupName: 'sebas-grupo-automa'
   location: 'westeurope'
   templateFile: 'main.bicep'
 pool:
