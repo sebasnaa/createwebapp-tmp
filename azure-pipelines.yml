@@ -4,22 +4,23 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
-
+- main
+name: Deploy Bicep files
+variables:
+  vmImageName: 'ubuntu-latest'
+  azureServiceConnection: 'myServiceConnection'
+  resourceGroupName: 'Bicep'
+  location: 'westeurope'
+  templateFile: 'main.bicep'
 pool:
-  vmImage: ubuntu-latest
-
+  vmImage: $(vmImageName)
 steps:
-- task: AzureResourceManagerTemplateDeployment@3
-  inputs:
-    deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 'armSebas'
-    subscriptionId: '30398c12-075d-4bc8-b716-4716126a14cc'
-    action: 'Create Or Update Resource Group'
-    resourceGroupName: 'myapp-rg'
-    location: 'East US'
-    templateLocation: 'URL of the file'
-    csmFileLink: 'https://raw.githubusercontent.com/nahuic72/AzureRmPipeline-repo/main/CreateWebApp/azuredeploy.json'
-    overrideParameters: '-projectName armsebas5'
-    deploymentMode: 'Incremental'
-    deploymentName: 'DeployPipelineTemplate'
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: $(azureServiceConnection)
+      scriptType: bash
+      scriptLocation: inlineScript
+      inlineScript: |
+       az --version
+       az group create --name $(resourceGroupName) --location $(location)
+       az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile)
