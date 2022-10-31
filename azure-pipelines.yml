@@ -8,7 +8,7 @@ trigger:
 name: Deploy Bicep files
 variables:
   vmImageName: 'ubuntu-latest'
-  azureServiceConnection: 'myServiceConnection'
+  azureServiceConnection: 'armSebas'
   resourceGroupName: 'sebas-grupo-automa'
   location: 'westeurope'
   templateFile: 'main.bicep'
